@@ -1,31 +1,28 @@
 #include "Car.h"
 #include <iostream>
 
-void Car::init(std::string marque) {
+Car::Car(std::string marque) {
     label = marque;
     status = false;
+    battery = nullptr;
     fuel = 100;
 }
 
-Car::Car(std::string marque)
-{
-    init(marque);
-}
-
-Car::Car(std::string marque, float rayonPneu, std::string marquePneu, std::string materiauPneu, int capaciteBatterie, std::string marqueBatterie): 
-    battery(capaciteBatterie, marqueBatterie)
-{
+void Car::setTire(float rayon, std::string marque, std::string materiau) {
+    tires.clear();
     for (int i=0; i<4; ++i)
-        tires.push_back(Tire(rayonPneu, marquePneu, materiauPneu));
-    init(marque);
+        tires.emplace_back(rayon, marque, materiau);
 }
 
 void Car::showSpec() {
     std::cout << label << " :\n";
-    std::cout << " - Batterie : " << std::endl
-            << "\t - Power : " << battery.getPower() << '%' << std::endl
-            << "\t - Capacity : " << battery.getCapacity() << " Volts" << std::endl
-            << "\t - Label : " << battery.getLabel() << std::endl;
+    if (battery) {
+        std::cout << " - Batterie : " << std::endl
+                << "\t - Power : " << battery->getPower() << '%' << std::endl
+                << "\t - Capacity : " << battery->getCapacity() << " Volts" << std::endl
+                << "\t - Label : " << battery->getLabel() << std::endl;
+    } else 
+        std::cerr << " - Pas de batterie\n";
     std::cout << " - Pneus : " << std::endl
             << "\t - Label : " << tires[0].getLabel() << std::endl
             << "\t - Radius : " << tires[0].getRadius() << " meters" << std::endl
@@ -48,14 +45,24 @@ float Car::getVelocity() const {
     return velocity;
 }
 
+Battery* Car::getBattery() {
+    return battery;
+}
+
+void Car::setBattery(int capacite, std::string marque) {
+    if (battery) 
+        delete battery;
+    battery = new Battery(capacite, marque);
+}
+
 void Car::move() {
     if (isOn())
         fuel -= 1;
 }
 
 void Car::turnOn() {
-    if (!battery.isLow()) {
-        battery.use();
+    if (battery and !battery->isLow()) {
+       battery->use();
         if (fuel <= 0) {
             std::cout << "Vous n'avez clairement plus d'essence" << std::endl;
             return;

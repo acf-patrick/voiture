@@ -1,3 +1,6 @@
+#ifndef TIRE_H
+#define TIRE_H
+
 #include <string>
 
 class Tire {
@@ -14,7 +17,7 @@ private:
 
 public:
     Tire();
-    Tire(float rayon, std::string marque, std::string materiau = "caoutchou");
+    Tire(float rayon, std::string marque, std::string materiau);
 
     std::string getLabel();
     float getRadius();
@@ -23,3 +26,5 @@ public:
 // Le pneu est-il crevé?
     bool isFlat() const;
 };
+
+#endif // TIRE_H

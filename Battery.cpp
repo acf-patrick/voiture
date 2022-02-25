@@ -25,7 +25,7 @@ bool Battery::isLow() const {
 }
 
 void Battery::use() {
-    power -= 5;
+    power -= 1;
 }
 
 int Battery::getPower() {

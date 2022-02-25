@@ -1,3 +1,6 @@
+#ifndef BATTERY_H
+#define BATTERY_H
+
 #include <string>
 
 class Battery {
@@ -30,3 +33,5 @@ public:
 // Recharger la batterie
     void chargeUp();
 };
+
+#endif // BATTERY_H

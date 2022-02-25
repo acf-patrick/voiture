@@ -1,3 +1,6 @@
+#ifndef CAR_H
+#define CAR_H
+
 #include "Tire.h"
 #include "Battery.h"
 #include <vector>
@@ -5,10 +8,11 @@
 class Car {
 
 private:
+
 // Quatre pneus
     std::vector<Tire> tires;
 // Batterie de l'automobile
-    Battery battery;
+    Battery* battery;
 // Essence en pourcentage
     int fuel;
 // Vitesse en km/h
@@ -17,8 +21,8 @@ private:
     std::string label;
 // false: éteint, true: en marche
     bool status;
-
-    void init(std::string marque);
+// Numéro matricule de la voiture
+    std::string matricule;
 
 // retourne le nombre de pneus crevés
     int tireStatus();
@@ -26,7 +30,11 @@ private:
 public:
     Car(std::string marque);
 
-    Car(std::string marque, float rayonPneu, std::string marquePneu, std::string materiauPneu, int capaciteBatterie, std::string marqueBatterie);
+// Setter battery
+    void setBattery(int capacite, std::string marque);
+
+// Modifier les pneus
+    void setTire(float rayon, std::string marque, std::string materiau = "Caoutchou");
 
 // Retourne la vitesse courrante de la voiture
     float getVelocity() const;
@@ -42,4 +50,9 @@ public:
 
 // Afficher
     void showSpec();
+
+// Retourne une référence vers la batterie de la voiture
+    Battery* getBattery();
 };
+
+#endif // CAR_H
